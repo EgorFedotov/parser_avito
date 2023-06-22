@@ -1,10 +1,7 @@
 import json
-import time
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from fake_useragent import UserAgent
-from multiprocessing import Pool
 import undetected_chromedriver as uc
 
 driver = uc.Chrome()
@@ -26,7 +23,9 @@ class AvitoParse:
 
     def start_browser(self):
         options = Options()
+        useragent = UserAgent()
         options.add_argument('--headless')
+        options.add_argument(f"user-agent={useragent.random}")
         self.driver = uc.Chrome(options=options)
 
 
