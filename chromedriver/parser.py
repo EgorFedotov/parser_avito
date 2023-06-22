@@ -1,6 +1,8 @@
+import json
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from fake_useragent import UserAgent
 from multiprocessing import Pool
 import undetected_chromedriver as uc
@@ -14,10 +16,14 @@ class AvitoParse:
         self.url = url
         self.items = items
         self.count_page = count_page
+        self.data = []
         # self.version_chrome = version_chrome
 
     def start_browser(self):
-        self.driver = uc.Chrome()
+        options = Options()
+        options.add_argument('--headless')
+        self.driver = uc.Chrome(options=options)
+
 
     def get_url(self):
         self.driver.get(self.url)
@@ -35,7 +41,19 @@ class AvitoParse:
             description = title.find_element(By.CSS_SELECTOR, "[class*='item-descriptionStep']").text
             url = title.find_element(By.CSS_SELECTOR, "[data-marker='item-title']").get_attribute('href')
             price = title.find_element(By.CSS_SELECTOR, "[itemprop='price']").get_attribute('content')
-        print(f'{name} {description} {url} {price}')
+            data = {
+                'name': name,
+                'description': description,
+                'url': url,
+                'price': price,
+            }
+            if any([item.lower() in description.lower() for item in self.items]) and int(price)==0:
+                self.data.append(data)
+                print(data)
+        self.save_data()
+    def save_data(self):
+        with open("items.json", 'w', encoding='utf-8') as file:
+            json.dump(self.data, file, ensure_ascii=False, indent=4)
 
     def parse(self):
         self.start_browser()
@@ -47,4 +65,4 @@ class AvitoParse:
 
 
 if __name__ == '__main__':
-    AvitoParse(url=url, count_page=1, items=['iphone']).parse()
+    AvitoParse(url=url, count_page=1, items=['чехол']).parse()
