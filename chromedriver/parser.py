@@ -12,6 +12,11 @@ url = 'https://www.avito.ru/arzamas/bytovaya_elektronika?cd=1&q=%D0%B1%D0%B5%D1%
 
 
 class AvitoParse:
+    """
+    Парсинг авито url - ссылка на авито которую нужно пропарсить
+    count_page - количество проверяемых страниц
+    items - ключевые слова в иписании
+    """
     def __init__(self, url:str, items:list, count_page:int = 50):
         self.url = url
         self.items = items
@@ -65,4 +70,4 @@ class AvitoParse:
 
 
 if __name__ == '__main__':
-    AvitoParse(url=url, count_page=1, items=['чехол']).parse()
+    AvitoParse(url=url, count_page=3, items=['чехол', 'пульт']).parse()
