@@ -3,6 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from fake_useragent import UserAgent
 import undetected_chromedriver as uc
+from chromedriver.config import DESCRIPTIONS, NEXT_PAGE, PRICE, TITLES, NAME, URL
+
 
 driver = uc.Chrome()
 url = 'https://www.avito.ru/arzamas/bytovaya_elektronika?cd=1&q=%D0%B1%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D0%BE'
@@ -33,18 +35,18 @@ class AvitoParse:
         self.driver.get(self.url)
 
     def paginations(self):
-        while self.driver.find_elements(By.CSS_SELECTOR, "[data-marker='pagination-button/nextPage']") and self.count_page > 0:
+        while self.driver.find_elements(By.CSS_SELECTOR, NEXT_PAGE) and self.count_page > 0:
             self.parse_page()
-            self.driver.find_element(By.CSS_SELECTOR, "[data-marker='pagination-button/nextPage']").click()
+            self.driver.find_element(By.CSS_SELECTOR, NEXT_PAGE).click()
             self.count_page -= 1
 
     def parse_page(self):
-        titles = self.driver.find_elements(By.CSS_SELECTOR, "[data-marker='item']")
+        titles = self.driver.find_elements(By.CSS_SELECTOR, TITLES)
         for title in titles:
-            name = title.find_element(By.CSS_SELECTOR, "[itemprop='name']").text
-            description = title.find_element(By.CSS_SELECTOR, "[class*='item-descriptionStep']").text
-            url = title.find_element(By.CSS_SELECTOR, "[data-marker='item-title']").get_attribute('href')
-            price = title.find_element(By.CSS_SELECTOR, "[itemprop='price']").get_attribute('content')
+            name = title.find_element(By.CSS_SELECTOR, NAME).text
+            description = title.find_element(By.CSS_SELECTOR, DESCRIPTIONS).text
+            url = title.find_element(By.CSS_SELECTOR, URL).get_attribute('href')
+            price = title.find_element(By.CSS_SELECTOR, PRICE).get_attribute('content')
             data = {
                 'name': name,
                 'description': description,
