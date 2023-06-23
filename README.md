@@ -16,11 +16,15 @@ Python3, selenium, fake_useragent
 	`
 
 * В  конце файла parser.py добавляем ключевые слова
+
     `
     AvitoParse(url=url, count_page=3, items=['<ключевое слово>', '<ключевое слово>']).parse()
     `
 
-* Устанавливаем драйвер Google Chrome 
+* Устанавливаем драйвер Google Chrome в папку chromedriver
+
+https://chromedriver.storage.googleapis.com/index.html?path=110.0.5481.77/
+
 
 * Клонируем репозиторий к себе на пк
 
