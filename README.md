@@ -9,9 +9,9 @@ Python3, selenium, fake_useragent
 
 ## Как запустить парсер
 * В корне проекта создаем файл .env в файле создаем константу URL и туда добавляем ссылку на авито с выбранной категорией
-
+    
+    ### пример
 	`
-    # примеры
 	URL = https://www.avito.ru/arzamas/bytovaya_elektronika?cd=1&q=%D0%B1%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D0%BE
 	`
 
