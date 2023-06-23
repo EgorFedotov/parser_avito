@@ -38,6 +38,7 @@ https://chromedriver.storage.googleapis.com/index.html?path=110.0.5481.77/
 	`
     py -3.10 -m venv venv
     `
+
     `
     source venv/Scripts/activate
     `
