@@ -31,7 +31,7 @@ class AvitoParse:
     def start_browser(self):
         options = Options()
         useragent = UserAgent()
-        # options.add_argument('--headless')
+        options.add_argument('--headless')
         options.add_argument(f"user-agent={useragent.random}")
         self.driver = uc.Chrome(options=options)
 
@@ -42,7 +42,7 @@ class AvitoParse:
     def paginations(self):
         while self.count_page > 0:
             self.parse_page()
-            if self.driver.find_elements(By.CSS_SELECTOR, "[data-marker='pagination-button/nextPage']"):
+            if self.driver.find_elements(By.CSS_SELECTOR, "[data-marker*='pagination-button/nextPage']"):
                 self.driver.find_element(By.CSS_SELECTOR, "[data-marker='pagination-button/nextPage']").click()
                 self.count_page -= 1
 
@@ -51,7 +51,7 @@ class AvitoParse:
         for title in titles:
             name = title.find_element(By.CSS_SELECTOR, "[itemprop='name']").text
             description = title.find_element(By.CSS_SELECTOR, "[class*='item-descriptionStep']").text
-            url = title.find_element(By.CSS_SELECTOR, "[class*='item-descriptionStep']").get_attribute('href')
+            url = title.find_element(By.CSS_SELECTOR, "[data-marker='item-title']").get_attribute('href')
             price = title.find_element(By.CSS_SELECTOR, "[itemprop='price']").get_attribute('content')
             data = {
                 'name': name,
@@ -77,4 +77,4 @@ class AvitoParse:
 
 
 if __name__ == '__main__':
-    AvitoParse(url=url, count_page=3, items=['монитор', 'чехол']).parse()
+    AvitoParse(url=url, count_page=30, items=['монитор', 'чехол']).parse()
