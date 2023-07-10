@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from fake_useragent import UserAgent
 import undetected_chromedriver as uc
 from dotenv import load_dotenv
+from notifiers.logging import NotificationHandler
 
 from config import TagAvito
 
@@ -21,12 +22,13 @@ class AvitoParse:
     count_page - количество проверяемых страниц
     items - ключевые слова в иписании
     """
-    def __init__(self, url:str, items:list, count_page:int = 50):
+    def __init__(self, url:str, items:list, count_page:int = 50, tg_token: str = None,):
         self.url = url
         self.items = items
         self.count_page = count_page
         self.data = []
-        # self.version_chrome = version_chrome
+        self.tg_token = tg_token
+
 
     def start_browser(self):
         options = Options()
@@ -77,4 +79,20 @@ class AvitoParse:
 
 
 if __name__ == '__main__':
+    import configparser
+
     AvitoParse(url=url, count_page=30, items=['монитор', 'чехол']).parse()
+    config = configparser.ConfigParser()
+    config.read("settings.ini")
+    token =  os.getenv('TG_TOKEN')
+    chat_id = os.getenv('CHAT_ID')
+
+    if token and chat_id:
+        params = {
+            'token': token,
+            'chat_id': chat_id
+        }
+        tg_handler = NotificationHandler("telegram", defaults=params)
+
+        """Все логи уровня SUCCESS и выше отсылаются в телегу"""
+        logger.add(tg_handler, level="SUCCESS", format="{message}")

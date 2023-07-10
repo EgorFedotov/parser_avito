@@ -15,10 +15,10 @@ Python3, selenium, fake_useragent
 	URL = https://www.avito.ru/arzamas/bytovaya_elektronika?cd=1&q=%D0%B1%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D0%BE
 	`
 
-* В  конце файла parser.py добавляем ключевые слова
+* В  конце файла parser.py добавляем параметры: items- ключевые слова для поиска count_page- количество проверяемых страниц
 
     `
-    AvitoParse(url=url, count_page=3, items=['<ключевое слово>', '<ключевое слово>']).parse()
+    AvitoParse(url=url, count_page=10, items=['<ключевое слово>', '<ключевое слово>']).parse()
     `
 
 * Устанавливаем драйвер Google Chrome в папку chromedriver
