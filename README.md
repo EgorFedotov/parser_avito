@@ -8,11 +8,14 @@ Python3, selenium, fake_useragent
 ***
 
 ## Как запустить парсер
-* В корне проекта создаем файл .env в файле создаем константу URL и туда добавляем ссылку на авито с выбранной категорией
+* В корне проекта создаем файл .env в файле создаем константу URL и туда добавляем ссылку на авито с выбранной категорией. добавляем  tg token и chat id
     
     ### пример
 	`
 	URL = https://www.avito.ru/arzamas/bytovaya_elektronika?cd=1&q=%D0%B1%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D0%BE
+    TG_TOKEN = <Можно получть у https://t.me/BotFather>
+    CHAT_ID = <получаем у https://t.me/getmyid_bot>
+
 	`
 
 * В  конце файла parser.py добавляем параметры: items- ключевые слова для поиска count_page- количество проверяемых страниц
