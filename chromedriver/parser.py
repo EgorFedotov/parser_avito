@@ -7,6 +7,7 @@ from fake_useragent import UserAgent
 import undetected_chromedriver as uc
 from dotenv import load_dotenv
 from notifiers.logging import NotificationHandler
+from loguru import logger
 
 from config import TagAvito
 
@@ -42,11 +43,16 @@ class AvitoParse:
         self.driver.get(self.url)
 
     def paginations(self):
+        logger.info('Страница успешно загружена. Просматриваю объявления')
         while self.count_page > 0:
             self.parse_page()
             if self.driver.find_elements(By.CSS_SELECTOR, "[data-marker*='pagination-button/nextPage']"):
                 self.driver.find_element(By.CSS_SELECTOR, "[data-marker='pagination-button/nextPage']").click()
                 self.count_page -= 1
+                logger.debug("Следующая страница")
+            else:
+                logger.info("Нет кнопки дальше")
+                break
 
     def parse_page(self):
         titles = self.driver.find_elements(By.CSS_SELECTOR, "[data-marker='item']")
@@ -74,9 +80,6 @@ class AvitoParse:
         self.get_url()
         self.paginations()
 
-    # def get_message_tg(srlf):
-    #     pass
-
 
 if __name__ == '__main__':
     import configparser
@@ -93,6 +96,4 @@ if __name__ == '__main__':
             'chat_id': chat_id
         }
         tg_handler = NotificationHandler("telegram", defaults=params)
-
-        """Все логи уровня SUCCESS и выше отсылаются в телегу"""
         logger.add(tg_handler, level="SUCCESS", format="{message}")
