@@ -83,8 +83,6 @@ class AvitoParse:
 
 if __name__ == '__main__':
     import configparser
-
-    AvitoParse(url=url, count_page=30, items=['монитор', 'чехол']).parse()
     config = configparser.ConfigParser()
     config.read("settings.ini")
     token =  os.getenv('TG_TOKEN')
@@ -97,3 +95,9 @@ if __name__ == '__main__':
         }
         tg_handler = NotificationHandler("telegram", defaults=params)
         logger.add(tg_handler, level="SUCCESS", format="{message}")
+    try:
+        AvitoParse(url=url, count_page=30, items=['монитор', 'чехол']).parse()
+    except Exception as error:
+        logger.error(error)
+    
+    
